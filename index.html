@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What does Sahel bench?</title>
+    <style>
+        /* Style for the full page and background image */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('https://example.com/black-man.jpg'); /* Replace with actual image URL */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        /* Style for the centered box */
+        .container {
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+        }
+
+        /* Input styles */
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        /* Button styles */
+        input[type="button"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .message {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        /* Confetti effect */
+        .confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <!-- Centered box with input and question -->
+    <div class="container">
+        <h2>What does Sahel bench?</h2>
+        <input type="text" id="passcode" placeholder="Enter your answer">
+        <br><br>
+        <input type="button" value="Submit" onclick="checkPasscode()">
+        <div class="message" id="message"></div>
+    </div>
+
+    <!-- Confetti Canvas -->
+    <canvas id="confetti" class="confetti"></canvas>
+
+    <script>
+        function checkPasscode() {
+            var passcode = document.getElementById("passcode").value;
+            var message = document.getElementById("message");
+            if (passcode === "240") {
+                message.innerHTML = "Congratulations, you got it right!";
+                message.style.color = "green";
+                startConfetti(); // Start the confetti effect
+            } else {
+                message.innerHTML = "WRONG! I'M NOT A WEAK BITCH LIKE ZAID";
+                message.style.color = "red";
+            }
+        }
+
+        // Confetti Effect Code
+        var confettiCanvas = document.getElementById("confetti");
+        var confettiCtx = confettiCanvas.getContext("2d");
+        confettiCanvas.width = window.innerWidth;
+        confettiCanvas.height = window.innerHeight;
+
+        function startConfetti() {
+            var confettiColors = ["#FFC700", "#FF0000", "#00FF00", "#00A3FF", "#FF00FF"];
+            var confettiParticles = [];
+
+            function createConfetti() {
+                var confetti = {
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+                    size: Math.random() * 10 + 5,
+                    speedX: Math.random() * 5 - 2.5,
+                    speedY: Math.random() * 7 + 2
+                };
+                confettiParticles.push(confetti);
+            }
+
+            function updateConfetti() {
+                confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                for (var i = 0; i < confettiParticles.length; i++) {
+                    var confetti = confettiParticles[i];
+                    confetti.x += confetti.speedX;
+                    confetti.y += confetti.speedY;
+                    if (confetti.y > confettiCanvas.height) {
+                        confettiParticles.splice(i, 1);
+                        i--;
+                    } else {
+                        confettiCtx.fillStyle = confetti.color;
+                        confettiCtx.fillRect(confetti.x, confetti.y, confetti.size, confetti.size);
+                    }
+                }
+                requestAnimationFrame(updateConfetti);
+            }
+
+            setInterval(createConfetti, 100);
+            updateConfetti();
+        }
+    </script>
+</body>
+</html>
